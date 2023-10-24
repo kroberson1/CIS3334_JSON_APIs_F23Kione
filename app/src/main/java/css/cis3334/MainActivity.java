@@ -52,7 +52,37 @@ public class MainActivity extends AppCompatActivity {
 
     private void getStudentAPI() {
         // ======================= Student must add code here to get JSON data from an API =======================
-        textViewStatus.setText("Not implemented yet ....");
+            // Define the URL for the student API
+            String url = "https://api.football-data.org/v4/matches\";
+
+            // Create a Volley web request to receive a JSON object
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Handle the successful API response here
+                            // You can parse the JSON response and update your UI accordingly
+                            try {
+                                // Example: Parse a JSON property and display it in a TextView
+                                String dataValue = response.getString("Api Football");
+                                textViewStatus.setText(dataValue);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Handle error
+                            textViewStatus.setText("ERROR Response: " + error.toString());
+                        }
+                    });
+
+            // Create a RequestQueue used to send web requests using Volley
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(jsonObjectRequest);
+        }
 
     }
     private void getCatFact() {
